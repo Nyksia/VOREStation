@@ -85,6 +85,8 @@
 /mob/living/silicon/robot/updateicon()
 	vr_sprite_check()
 	..()
+	if(wideborg && icon != 'icons/mob/widerobot_vr.dmi') //Temporary fix for broken sprite on module selection.
+		return
 	if(dogborg == TRUE && stat == CONSCIOUS)
 		if(sleeper_g == TRUE)
 			add_overlay("[module_sprites[icontype]]-sleeper_g")

@@ -22,7 +22,7 @@ var/global/list/robot_modules = list(
 	var/channels = list()
 	var/networks = list()
 	var/languages = list(LANGUAGE_SOL_COMMON = 1, LANGUAGE_TRADEBAND = 1, LANGUAGE_UNATHI = 0, LANGUAGE_SIIK = 0, LANGUAGE_AKHANI = 0, LANGUAGE_SKRELLIAN = 0, LANGUAGE_GUTTER = 0, LANGUAGE_SCHECHI = 0, LANGUAGE_SIGN = 0, LANGUAGE_TERMINUS = 1, LANGUAGE_ZADDAT = 0)
-	var/sprites = list()
+	var/list/sprites = list()
 	var/can_be_pushed = 1
 	var/no_slip = 0
 	var/list/modules = list()
@@ -54,8 +54,9 @@ var/global/list/robot_modules = list(
 
 	vr_add_sprites() //Vorestation Edit: For vorestation only sprites
 
-	R.set_module_sprites(sprites)
-	R.choose_icon(R.module_sprites.len + 1, R.module_sprites)
+	// R.set_module_sprites(sprites)
+	R.module_sprites = sprites.Copy()
+	R.choose_icon(R.module_sprites)
 
 	for(var/obj/item/I in modules)
 		I.canremove = 0
@@ -68,7 +69,7 @@ var/global/list/robot_modules = list(
 
 	if(R.radio)
 		R.radio.recalculateChannels()
-	R.choose_icon(0, R.set_module_sprites(list("Default" = "robot")))
+	R.choose_icon(list("Default" = "robot"))
 
 /obj/item/weapon/robot_module/Destroy()
 	for(var/module in modules)

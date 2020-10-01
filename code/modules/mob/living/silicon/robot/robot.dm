@@ -240,7 +240,7 @@
 	qdel(wires)
 	wires = null
 	return ..()
-
+/* VOREStation Removal - Obsolote with new choose_icon proc.
 /mob/living/silicon/robot/proc/set_module_sprites(var/list/new_sprites)
 	if(new_sprites && new_sprites.len)
 		module_sprites = new_sprites.Copy()
@@ -253,7 +253,7 @@
 			icon_state = module_sprites[icontype]
 	updateicon()
 	return module_sprites
-
+*/
 /mob/living/silicon/robot/proc/pick_module()
 	if(module)
 		return
@@ -276,7 +276,7 @@
 		return
 
 	var/module_type = robot_modules[modtype]
-	transform_with_anim()	//VOREStation edit: sprite animation
+
 	new module_type(src)
 
 	hands.icon_state = lowertext(modtype)
@@ -945,44 +945,49 @@
 		W.attack_self(src)
 
 	return
-
-/mob/living/silicon/robot/proc/choose_icon(var/triesleft, var/list/module_sprites)
+//VOREStation Edit - Modified to use radial menu for sprite selection, moved some code from dog borg modules for compatability due to icon offsets used.
+/mob/living/silicon/robot/proc/choose_icon(var/list/module_sprites)
 	if(!module_sprites.len)
 		to_chat(src, "Something is badly wrong with the sprite selection. Harass a coder.")
 		return
 
 	icon_selected = 0
-	src.icon_selection_tries = triesleft
-	if(module_sprites.len == 1 || !client)
-		if(!(icontype in module_sprites))
-			icontype = module_sprites[1]
-	else
-		icontype = input("Select an icon! [triesleft ? "You have [triesleft] more chance\s." : "This is your last try."]", "Robot Icon", icontype, null) in module_sprites
-		if(notransform)				//VOREStation edit start: sprite animation
-			to_chat(src, "Your current transformation has not finished yet!")
-			choose_icon(icon_selection_tries, module_sprites)
-			return
+	var/list/icon_list = list() //List for storing images to be used by radial menu.
+
+	for(var/key in module_sprites)
+		if(module_sprites[key] in vr_icons)
+			icon_list[key] += image(icon = 'icons/mob/robots_vr.dmi', icon_state = module_sprites[key])
 		else
-			transform_with_anim()	//VOREStation edit end: sprite animation
+			if(src.wideborg)
+				icon_list[key] += image(icon = 'icons/mob/widerobot_vr.dmi', icon_state = module_sprites[key])
+				icon_list[key].pixel_x = -16 //Offset so borg images are centered.
+			else
+				icon_list[key] += image(icon = src.icon, icon_state = module_sprites[key])
+
+	if(icon_list.len == 1 || !client)
+		if(!(icontype in icon_list))
+			icontype = icon_list[1]
+	else
+		icontype = show_radial_menu(src, src, icon_list)
+		transform_with_anim()
 
 	if(icontype == "Custom")
 		icon = CUSTOM_ITEM_SYNTH
 	else // This is to fix an issue where someone with a custom borg sprite chooses a non-custom sprite and turns invisible.
-		vr_sprite_check() //VOREStation Edit
+		vr_sprite_check()
 	icon_state = module_sprites[icontype]
+	if(src.wideborg) //Adjustement for wide cyborgs. Moved from Dog modules after clean-up.
+		icon = 'icons/mob/widerobot_vr.dmi'
+		hands.icon = 'icons/mob/screen1_robot_vr.dmi'
+		ui_style_vr = TRUE
+		pixel_x 	 = -16
+		old_x  	 = -16
+		default_pixel_x = -16
 	updateicon()
 
-	if (module_sprites.len > 1 && triesleft >= 1 && client)
-		icon_selection_tries--
-		var/choice = input("Look at your icon - is this what you want?") in list("Yes","No")
-		if(choice=="No")
-			choose_icon(icon_selection_tries, module_sprites)
-			return
-
 	icon_selected = 1
-	icon_selection_tries = 0
 	to_chat(src, "Your icon has been set. You now require a module reset to change it.")
-
+//VOREStation Edit End
 /mob/living/silicon/robot/proc/sensor_mode() //Medical/Security HUD controller for borgs
 	set name = "Set Sensor Augmentation"
 	set category = "Robot Commands"
