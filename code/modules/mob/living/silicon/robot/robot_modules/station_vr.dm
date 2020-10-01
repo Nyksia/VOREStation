@@ -40,14 +40,14 @@
 					)
 
 /hook/startup/proc/robot_modules_vr()
-	robot_modules["Medihound"] = /obj/item/weapon/robot_module/robot/medihound
-	robot_modules["K9"] = /obj/item/weapon/robot_module/robot/knine
-	robot_modules["ERT"] = /obj/item/weapon/robot_module/robot/ert
-	robot_modules["Janihound"] = /obj/item/weapon/robot_module/robot/scrubpup
-	robot_modules["Sci-borg"] = /obj/item/weapon/robot_module/robot/science
-	robot_modules["Pupdozer"] = /obj/item/weapon/robot_module/robot/engiedog
-	robot_modules["Service-Hound"] = /obj/item/weapon/robot_module/robot/clerical/brodog
-	robot_modules["KMine"] = /obj/item/weapon/robot_module/robot/kmine
+	robot_modules["Medihound"] = /obj/item/weapon/robot_module/robot/dog/medihound
+	robot_modules["K9"] = /obj/item/weapon/robot_module/robot/dog/knine
+	robot_modules["ERT"] = /obj/item/weapon/robot_module/robot/dog/ert
+	robot_modules["Janihound"] = /obj/item/weapon/robot_module/robot/dog/scrubpup
+	robot_modules["Sci-borg"] = /obj/item/weapon/robot_module/robot/dog/science
+	robot_modules["Pupdozer"] = /obj/item/weapon/robot_module/robot/dog/engiedog
+	robot_modules["Service-Hound"] = /obj/item/weapon/robot_module/robot/dog/brodog
+	robot_modules["KMine"] = /obj/item/weapon/robot_module/robot/dog/kmine
 	return 1
 
 //Just add a new proc with the robot_module type if you wish to run some other vore code
@@ -160,7 +160,23 @@
 						"ZOOM-BA" = "zoomba-combat"
 					 )
 
-/obj/item/weapon/robot_module/robot/knine
+/obj/item/weapon/robot_module/robot/dog/New()
+	R.icon = 'icons/mob/widerobot_vr.dmi'
+	R.hands.icon = 'icons/mob/screen1_robot_vr.dmi'
+	R.ui_style_vr = TRUE
+	R.pixel_x 	 = -16
+	R.old_x  	 = -16
+	R.default_pixel_x = -16
+	R.dogborg = TRUE
+	R.wideborg = TRUE
+	R.verbs |= /mob/living/silicon/robot/proc/ex_reserve_refill
+	R.verbs |= /mob/living/silicon/robot/proc/robot_mount
+	R.verbs |= /mob/living/proc/toggle_rider_reins
+	R.verbs |= /mob/living/proc/shred_limb
+	R.verbs |= /mob/living/silicon/robot/proc/rest_style
+	..()
+
+/obj/item/weapon/robot_module/robot/dog/knine
 	name = "k9 robot module"
 	sprites = list(
 					"K9 hound" = "k9",
@@ -174,7 +190,7 @@
 	pto_type = PTO_SECURITY
 	can_be_pushed = 0
 
-/obj/item/weapon/robot_module/robot/knine/New(var/mob/living/silicon/robot/R)
+/obj/item/weapon/robot_module/robot/dog/knine/New(var/mob/living/silicon/robot/R)
 	src.modules += new /obj/item/weapon/handcuffs/cyborg(src) //You need cuffs to be a proper sec borg!
 	src.modules += new /obj/item/weapon/dogborg/jaws/big(src) //In case there's some kind of hostile mob.
 	src.modules += new /obj/item/weapon/melee/baton/robot(src) //Since the pounce module refused to work, they get a stunbaton instead.
@@ -198,22 +214,9 @@
 	B.water = water
 	src.modules += B
 
-	R.icon 		 = 'icons/mob/widerobot_vr.dmi'
-	R.hands.icon = 'icons/mob/screen1_robot_vr.dmi'
-	R.ui_style_vr = TRUE
-	R.pixel_x 	 = -16
-	R.old_x 	 = -16
-	R.default_pixel_x = -16
-	R.dogborg = TRUE
-	R.wideborg = TRUE
-	R.verbs |= /mob/living/silicon/robot/proc/ex_reserve_refill
-	R.verbs |= /mob/living/silicon/robot/proc/robot_mount
-	R.verbs |= /mob/living/proc/toggle_rider_reins
-	R.verbs |= /mob/living/proc/shred_limb
-	R.verbs |= /mob/living/silicon/robot/proc/rest_style
 	..()
 
-/obj/item/weapon/robot_module/robot/knine/respawn_consumable(var/mob/living/silicon/robot/R, var/amount)
+/obj/item/weapon/robot_module/robot/dog/knine/respawn_consumable(var/mob/living/silicon/robot/R, var/amount)
 	var/obj/item/device/flash/F = locate() in src.modules
 	if(F.broken)
 		F.broken = 0
@@ -232,7 +235,7 @@
 		B.bcell.give(amount)*/
 
 
-/obj/item/weapon/robot_module/robot/medihound
+/obj/item/weapon/robot_module/robot/dog/medihound
 	name = "MediHound module"
 	channels = list("Medical" = 1)
 	networks = list(NETWORK_MEDICAL)
@@ -246,7 +249,7 @@
 					"Borgi" = "borgi-medi"
 					)
 
-/obj/item/weapon/robot_module/robot/medihound/New(var/mob/living/silicon/robot/R)
+/obj/item/weapon/robot_module/robot/dog/medihound/New(var/mob/living/silicon/robot/R)
 	src.modules += new /obj/item/weapon/dogborg/jaws/small(src) //In case a patient is being attacked by carp.
 	src.modules += new /obj/item/device/dogborg/boop_module(src) //Boop the crew.
 	src.modules += new /obj/item/device/healthanalyzer(src) // See who's hurt specificially.
@@ -283,22 +286,9 @@
 	B.water = water
 	src.modules += B
 
-	R.icon = 'icons/mob/widerobot_vr.dmi'
-	R.hands.icon = 'icons/mob/screen1_robot_vr.dmi'
-	R.ui_style_vr = TRUE
-	R.pixel_x 	 = -16
-	R.old_x  	 = -16
-	R.default_pixel_x = -16
-	R.dogborg = TRUE
-	R.wideborg = TRUE
-	R.verbs |= /mob/living/silicon/robot/proc/ex_reserve_refill
-	R.verbs |= /mob/living/silicon/robot/proc/robot_mount
-	R.verbs |= /mob/living/proc/toggle_rider_reins
-	R.verbs |= /mob/living/proc/shred_limb
-	R.verbs |= /mob/living/silicon/robot/proc/rest_style
 	..()
 
-/obj/item/weapon/robot_module/robot/ert
+/obj/item/weapon/robot_module/robot/dog/ert
 	name = "Emergency Responce module"
 	channels = list("Security" = 1)
 	networks = list(NETWORK_SECURITY)
@@ -309,7 +299,7 @@
 					"Borgi" = "borgi"
 					)
 
-/obj/item/weapon/robot_module/robot/ert/New(var/mob/living/silicon/robot/R)
+/obj/item/weapon/robot_module/robot/dog/ert/New(var/mob/living/silicon/robot/R)
 	src.modules += new /obj/item/weapon/handcuffs/cyborg(src)
 	src.modules += new /obj/item/weapon/dogborg/jaws/big(src)
 	src.modules += new /obj/item/weapon/melee/baton/robot(src)
@@ -332,22 +322,9 @@
 	B.water = water
 	src.modules += B
 
-	R.icon 		 = 'icons/mob/64x64robot_vr.dmi'
-	R.hands.icon = 'icons/mob/screen1_robot_vr.dmi'
-	R.ui_style_vr = TRUE
-	R.pixel_x 	 = -16
-	R.old_x 	 = -16
-	R.default_pixel_x = -16
-	R.dogborg = TRUE
-	R.wideborg = TRUE
-	R.verbs |= /mob/living/silicon/robot/proc/ex_reserve_refill
-	R.verbs |= /mob/living/silicon/robot/proc/robot_mount
-	R.verbs |= /mob/living/proc/toggle_rider_reins
-	R.verbs |= /mob/living/proc/shred_limb
-	R.verbs |= /mob/living/silicon/robot/proc/rest_style
 	..()
 
-/obj/item/weapon/robot_module/robot/scrubpup
+/obj/item/weapon/robot_module/robot/dog/scrubpup
 	name = "Custodial Hound module"
 	sprites = list(
 					"Custodial Hound" = "scrubpup",
@@ -358,7 +335,7 @@
 	pto_type = PTO_CIVILIAN
 	can_be_pushed = 0
 
-/obj/item/weapon/robot_module/robot/scrubpup/New(var/mob/living/silicon/robot/R)
+/obj/item/weapon/robot_module/robot/dog/scrubpup/New(var/mob/living/silicon/robot/R)
 	src.modules += new /obj/item/weapon/dogborg/jaws/small(src)
 	src.modules += new /obj/item/device/dogborg/boop_module(src)
 	src.modules += new /obj/item/pupscrubber(src)
@@ -416,22 +393,9 @@
 	G.recipes += new/datum/stack_recipe("glass sheet", /obj/item/stack/material/glass, 1, 1, 20)
 	src.modules += G
 
-	R.icon 		 = 'icons/mob/widerobot_vr.dmi'
-	R.hands.icon = 'icons/mob/screen1_robot_vr.dmi'
-	R.ui_style_vr = TRUE
-	R.pixel_x 	 = -16
-	R.old_x 	 = -16
-	R.default_pixel_x = -16
-	R.dogborg = TRUE
-	R.wideborg = TRUE
-	R.verbs |= /mob/living/silicon/robot/proc/ex_reserve_refill
-	R.verbs |= /mob/living/silicon/robot/proc/robot_mount
-	R.verbs |= /mob/living/proc/toggle_rider_reins
-	R.verbs |= /mob/living/proc/shred_limb
-	R.verbs |= /mob/living/silicon/robot/proc/rest_style
 	..()
 
-/obj/item/weapon/robot_module/robot/science
+/obj/item/weapon/robot_module/robot/dog/science
 	name = "Research Hound Module"
 	sprites = list(
 					"Research Hound" = "science",
@@ -443,7 +407,7 @@
 	pto_type = PTO_SCIENCE
 	can_be_pushed = 0
 
-/obj/item/weapon/robot_module/robot/science/New(var/mob/living/silicon/robot/R)
+/obj/item/weapon/robot_module/robot/dog/science/New(var/mob/living/silicon/robot/R)
 	src.modules += new /obj/item/weapon/dogborg/jaws/small(src)
 	src.modules += new /obj/item/device/dogborg/boop_module(src)
 	src.modules += new /obj/item/weapon/gripper/research(src)
@@ -490,22 +454,9 @@
 	C.synths = list(wire)
 	src.modules += C
 
-	R.icon 		 = 'icons/mob/widerobot_vr.dmi'
-	R.hands.icon = 'icons/mob/screen1_robot_vr.dmi'
-	R.ui_style_vr = TRUE
-	R.pixel_x 	 = -16
-	R.old_x 	 = -16
-	R.default_pixel_x = -16
-	R.dogborg = TRUE
-	R.wideborg = TRUE
-	R.verbs |= /mob/living/silicon/robot/proc/ex_reserve_refill
-	R.verbs |= /mob/living/silicon/robot/proc/robot_mount
-	R.verbs |= /mob/living/proc/toggle_rider_reins
-	R.verbs |= /mob/living/proc/shred_limb
-	R.verbs |= /mob/living/silicon/robot/proc/rest_style
 	..()
 
-/obj/item/weapon/robot_module/robot/engiedog
+/obj/item/weapon/robot_module/robot/dog/engiedog
 	name = "Construction Hound module"
 	sprites = list(
 					"Pupdozer" = "pupdozer",
@@ -520,7 +471,7 @@
 	subsystems = list(/mob/living/silicon/proc/subsystem_power_monitor)
 	can_be_pushed = 0
 
-/obj/item/weapon/robot_module/robot/engiedog/New(var/mob/living/silicon/robot/R)
+/obj/item/weapon/robot_module/robot/dog/engiedog/New(var/mob/living/silicon/robot/R)
 	src.modules += new /obj/item/borg/sight/meson(src)
 	src.modules += new /obj/item/weapon/weldingtool/electric/mounted/cyborg(src)
 	src.modules += new /obj/item/weapon/tool/screwdriver/cyborg(src)
@@ -639,23 +590,10 @@
 	PS.synths = list(plasteel)
 	src.modules += PS
 
-	R.icon 		 = 'icons/mob/widerobot_vr.dmi'
-	R.hands.icon = 'icons/mob/screen1_robot_vr.dmi'
-	R.ui_style_vr = TRUE
-	R.pixel_x 	 = -16
-	R.old_x 	 = -16
-	R.default_pixel_x = -16
-	R.dogborg = TRUE
-	R.wideborg = TRUE
-	R.verbs |= /mob/living/silicon/robot/proc/ex_reserve_refill
-	R.verbs |= /mob/living/silicon/robot/proc/robot_mount
-	R.verbs |= /mob/living/proc/toggle_rider_reins
-	R.verbs |= /mob/living/proc/shred_limb
-	R.verbs |= /mob/living/silicon/robot/proc/rest_style
 	..()
 
 // Uses modified K9 sprites.
-/obj/item/weapon/robot_module/robot/clerical/brodog
+/obj/item/weapon/robot_module/robot/dog/brodog
 	name = "service-hound module"
 	sprites = list(
 					"Blackhound" = "k50",
@@ -669,7 +607,7 @@
 
 
 // In a nutshell, basicly service/butler robot but in dog form. - Port from CitadelRP
-/obj/item/weapon/robot_module/robot/clerical/brodog/New(var/mob/living/silicon/robot/R)
+/obj/item/weapon/robot_module/robot/dog/brodog/New(var/mob/living/silicon/robot/R)
 	src.modules += new /obj/item/weapon/gripper/service(src)
 	src.modules += new /obj/item/weapon/reagent_containers/glass/bucket(src)
 	src.modules += new /obj/item/weapon/material/minihoe(src)
@@ -715,20 +653,11 @@
 	src.modules += B
 */
 
-	R.icon 		 = 'icons/mob/widerobot_vr.dmi'
-	R.hands.icon = 'icons/mob/screen1_robot_vr.dmi'
-	R.ui_style_vr = TRUE
-	R.pixel_x 	 = -16
-	R.old_x 	 = -16
-	R.default_pixel_x = -16
-	R.dogborg = TRUE
-	R.wideborg = TRUE
-	R.verbs |= /mob/living/silicon/robot/proc/ex_reserve_refill
-	R.verbs |= /mob/living/silicon/robot/proc/robot_mount
-	R.verbs |= /mob/living/silicon/robot/proc/rest_style
+	R.verbs -= /mob/living/silicon/robot/proc/toggle_rider_reins
+	R.verbs -= /mob/living/silicon/robot/proc/shred_limb
 	..()
 
-/obj/item/weapon/robot_module/robot/kmine
+/obj/item/weapon/robot_module/robot/dog/kmine
 	name = "Supply Hound Module"
 	sprites = list(
 					"KMine" = "kmine",
@@ -739,7 +668,7 @@
 	pto_type = PTO_CARGO
 	can_be_pushed = 0
 
-/obj/item/weapon/robot_module/robot/kmine/New(var/mob/living/silicon/robot/R)
+/obj/item/weapon/robot_module/robot/dog/kmine/New(var/mob/living/silicon/robot/R)
 	src.modules += new /obj/item/borg/sight/material(src)
 	src.modules += new /obj/item/weapon/tool/wrench/cyborg(src)
 	src.modules += new /obj/item/weapon/tool/screwdriver/cyborg(src)
@@ -765,20 +694,6 @@
 	var/obj/item/device/dogborg/sleeper/B = new /obj/item/device/dogborg/sleeper/compactor/supply(src)
 	B.water = water
 	src.modules += B
-
-	R.icon = 'icons/mob/widerobot_vr.dmi'
-	R.hands.icon = 'icons/mob/screen1_robot_vr.dmi'
-	R.ui_style_vr = TRUE
-	R.pixel_x 	 = -16
-	R.old_x  	 = -16
-	R.default_pixel_x = -16
-	R.dogborg = TRUE
-	R.wideborg = TRUE
-	R.verbs |= /mob/living/silicon/robot/proc/ex_reserve_refill
-	R.verbs |= /mob/living/silicon/robot/proc/robot_mount
-	R.verbs |= /mob/living/proc/toggle_rider_reins
-	R.verbs |= /mob/living/proc/shred_limb
-	R.verbs |= /mob/living/silicon/robot/proc/rest_style
 
 	..()
 
