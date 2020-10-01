@@ -160,13 +160,7 @@
 						"ZOOM-BA" = "zoomba-combat"
 					 )
 
-/obj/item/weapon/robot_module/robot/dog/New()
-	R.icon = 'icons/mob/widerobot_vr.dmi'
-	R.hands.icon = 'icons/mob/screen1_robot_vr.dmi'
-	R.ui_style_vr = TRUE
-	R.pixel_x 	 = -16
-	R.old_x  	 = -16
-	R.default_pixel_x = -16
+/obj/item/weapon/robot_module/robot/dog/New(var/mob/living/silicon/robot/R)
 	R.dogborg = TRUE
 	R.wideborg = TRUE
 	R.verbs |= /mob/living/silicon/robot/proc/ex_reserve_refill
@@ -653,8 +647,8 @@
 	src.modules += B
 */
 
-	R.verbs -= /mob/living/silicon/robot/proc/toggle_rider_reins
-	R.verbs -= /mob/living/silicon/robot/proc/shred_limb
+	R.verbs -= /mob/living/proc/toggle_rider_reins
+	R.verbs -= /mob/living/proc/shred_limb
 	..()
 
 /obj/item/weapon/robot_module/robot/dog/kmine

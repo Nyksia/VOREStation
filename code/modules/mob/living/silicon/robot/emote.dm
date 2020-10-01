@@ -120,7 +120,7 @@
 			m_type = 1
 
 		if("law")
-			if(istype(module,/obj/item/weapon/robot_module/robot/security) || istype(module,/obj/item/weapon/robot_module/robot/knine)) //VOREStation Add - K9
+			if(istype(module,/obj/item/weapon/robot_module/robot/security) || istype(module,/obj/item/weapon/robot_module/robot/dog/knine)) //VOREStation Add - K9
 				message = "<b>[src]</b> shows its legal authorization barcode."
 
 				playsound(src, 'sound/voice/biamthelaw.ogg', 50, 0)
@@ -129,7 +129,7 @@
 				to_chat(src, "You are not THE LAW, pal.")
 
 		if("halt")
-			if(istype(module,/obj/item/weapon/robot_module/robot/security) || istype(module,/obj/item/weapon/robot_module/robot/knine)) //VOREStation Add - K9
+			if(istype(module,/obj/item/weapon/robot_module/robot/security) || istype(module,/obj/item/weapon/robot_module/robot/dog/knine)) //VOREStation Add - K9
 				message = "<b>[src]</b> <B>'s</B> speakers skreech, \"Halt! Security!\"."
 
 				playsound(src, 'sound/voice/halt.ogg', 50, 0)
@@ -138,7 +138,7 @@
 				to_chat(src, "You are not security.")
 		//Vorestation addition start
 		if("bark")
-			if (istype(module,/obj/item/weapon/robot_module/robot/knine) || istype(module,/obj/item/weapon/robot_module/robot/medihound) || istype(module,/obj/item/weapon/robot_module/robot/scrubpup) || istype(module,/obj/item/weapon/robot_module/robot/ert) || istype(module,/obj/item/weapon/robot_module/robot/science) || istype(module,/obj/item/weapon/robot_module/robot/engiedog) || istype(module,/obj/item/weapon/robot_module/robot/clerical/brodog) || istype(module,/obj/item/weapon/robot_module/robot/kmine) )
+			if (istype(module,/obj/item/weapon/robot_module/robot/dog/knine) || istype(module,/obj/item/weapon/robot_module/robot/dog/medihound) || istype(module,/obj/item/weapon/robot_module/robot/dog/scrubpup) || istype(module,/obj/item/weapon/robot_module/robot/dog/ert) || istype(module,/obj/item/weapon/robot_module/robot/dog/science) || istype(module,/obj/item/weapon/robot_module/robot/dog/engiedog) || istype(module,/obj/item/weapon/robot_module/robot/dog/brodog) || istype(module,/obj/item/weapon/robot_module/robot/dog/kmine) )
 				message = "<b>[src]</b> lets out a bark."
 
 				playsound(src, 'sound/voice/bark2.ogg', 50, 1, -1, preference = /datum/client_preference/emote_noises)
